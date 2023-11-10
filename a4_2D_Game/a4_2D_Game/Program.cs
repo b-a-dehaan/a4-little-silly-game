@@ -1,4 +1,6 @@
-﻿namespace a4_2D_Game
+﻿using Raylib_cs;
+
+namespace a4_2D_Game
 {
 	internal class Program
 	{
