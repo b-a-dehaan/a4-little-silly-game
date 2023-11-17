@@ -40,12 +40,16 @@ namespace a4_2D_Game
 		//Loads all the objects in the game. Anything added here is "automatically" updated and drawn.
 		static void LoadAllObjects()
 		{
+			//Add objects behind player here...
+
+			AddObject(new Ground(), 1);
+
 			//Add a player object on level 1. Other objects wont need input stuff.
 			AddObject(new Player(500, 500, 100, 100, new Input()), 1); //Player has position.X, position.Y, size.X, size.Y, and Input class as parameters
-				
+
 			//Add other objects here...
 
-
+			
 
 
 

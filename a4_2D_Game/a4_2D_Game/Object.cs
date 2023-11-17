@@ -29,13 +29,13 @@ namespace a4_2D_Game
 		
 		public const float MAXVELOCITY = 500.0f;
 		public const float ACCELERATION_RATE = 50;
-		public const float GRAVITY = -9.8f;
+		public const float GRAVITY = 9.8f;
 		public const float FRICTION = -20f;
 
 		public bool canMove = false; //If the object can move or is static.
 		public bool falling = false; //If the object is currently falling.
 		public bool onGround = false; //If the object is currently on the ground. This is different than falling.
-		public bool isVisible = false; //Should the object be drawn on the screen? Call this in inherited draw method.
+		public bool isVisible = true; //Should the object be drawn on the screen? Call this in inherited draw method.
 		public virtual void Load()
 		{
 			isVisible = true;
@@ -58,10 +58,20 @@ namespace a4_2D_Game
 			else if (velocity.X < -MAXVELOCITY) velocity.X = -MAXVELOCITY;
 			else velocity.X += curAcceleration.X;
 			
+			if(!onGround)
+			{
+				curAcceleration.Y = GRAVITY;
+			}
+			
+
 			velocity.Y += curAcceleration.Y;
 
 			position += velocity * Raylib.GetFrameTime();
 		}
+
+
+		
+
 
 
 	}
