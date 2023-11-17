@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
@@ -23,7 +24,9 @@ namespace a4_2D_Game
 
 		public override void Load()
 		{
+			name = "PLAYER";
 			canMove = true;
+			components.Add(new C_BoxCollision(this));
 			base.Load();
 		}
 
@@ -60,16 +63,25 @@ namespace a4_2D_Game
 
 			base.Move();
 		}
-
-
-
 		public override void Draw()
 		{
 			Raylib.DrawRectangle((int)position.X, (int)position.Y, (int)size.X, (int)size.Y, Color.SKYBLUE);
 			base.Draw();
 		}
 
-		
+		public override void OnHit(Object otherObj)
+		{
+			if(otherObj.name == "GROUND")
+			{
+				falling = false;
+				onGround = true;
+				nextPosition.Y = otherObj.position.Y - size.Y;
+			}
+
+
+			base.OnHit(otherObj);
+		}
+
 
 	}
 }

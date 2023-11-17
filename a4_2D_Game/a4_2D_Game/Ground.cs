@@ -16,8 +16,12 @@ namespace a4_2D_Game
 		}
 		public override void Load()
 		{
+			name = "GROUND";
 			position = new Vector2(0, Raylib.GetScreenHeight() * 0.9f);
 			size = new Vector2(Raylib.GetScreenWidth(), Raylib.GetScreenHeight() * 0.1f);
+
+			components.Add(new C_BoxCollision(this));
+
 			base.Load();
 		}
 		public override void Draw()

@@ -22,7 +22,10 @@ namespace a4_2D_Game
 	internal class Object
 	{
 		
+		public List<Component> components = new List<Component>();
+
 		public Vector2 position = new Vector2(0,0);
+		public Vector2 nextPosition = new Vector2(0,0);
 		public Vector2 size = new Vector2(0, 0);
 		public Vector2 velocity = new Vector2(0, 0);
 		public Vector2 curAcceleration;
@@ -36,18 +39,39 @@ namespace a4_2D_Game
 		public bool falling = false; //If the object is currently falling.
 		public bool onGround = false; //If the object is currently on the ground. This is different than falling.
 		public bool isVisible = true; //Should the object be drawn on the screen? Call this in inherited draw method.
+		public bool startedColliding = false;
+
+		public string name = "";
 		public virtual void Load()
 		{
 			isVisible = true;
+			nextPosition = position;
+			//Load components added in the child class's load method (i.e. player) 
+			foreach (var component in components)
+			{
+				component.Load();
+			}
+			
 		}
 		public virtual void Update()
 		{
 			if(canMove) Move();
+			//Update existing components
+			foreach (var component in components)
+			{
+				component.Update();
+			}
+			
+		}
+
+		public virtual void LateUpdate()
+		{
+			position = nextPosition;
 		}
 		
 		public virtual void Draw()
 		{
-
+			
 		}
 
 		public virtual void Move()
@@ -62,16 +86,31 @@ namespace a4_2D_Game
 			{
 				curAcceleration.Y = GRAVITY;
 			}
+			else
+			{
+				velocity.Y = 0;
+				curAcceleration.Y = 0;
+			}
 			
-
 			velocity.Y += curAcceleration.Y;
 
-			position += velocity * Raylib.GetFrameTime();
+			nextPosition += velocity * Raylib.GetFrameTime();
 		}
 
+		public bool HasComponent(E_ComponentID ID)
+		{
+			foreach(var component in components)
+			{
+				if(component.GetId() == ID) return true;
+			}
 
+			return false;
+		}
 		
+		public virtual void OnHit(Object otherObj)
+		{
 
+		}
 
 
 	}

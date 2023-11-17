@@ -2,6 +2,18 @@
 
 namespace a4_2D_Game
 {
+
+	//Use this to give a component an ID. Add more here...
+	public enum E_ComponentID
+	{
+		C_DEFAULT = 0,
+		C_BOXCOLLISION = 1,
+		C_SPHERECOLLISION = 2
+
+	
+	
+	}
+
 	internal class Program
 	{
 		static int curLevel = 1;
@@ -26,6 +38,7 @@ namespace a4_2D_Game
 				Raylib.BeginDrawing();
 				Draw();
 				Raylib.EndDrawing();
+				LateUpdate();
 			}
 			Raylib.CloseWindow();
 		}
@@ -80,6 +93,17 @@ namespace a4_2D_Game
 			{
 				obj.Update();
 			}
+
+			HandleCollision();
+		}
+
+		//Updates each object after drawing is done.
+		static void LateUpdate()
+		{
+			foreach (Object obj in currentObjects)
+			{
+				obj.LateUpdate();
+			}
 		}
 
 		//Draw all objects in the current level.
@@ -119,6 +143,23 @@ namespace a4_2D_Game
 		static void RemoveObject(Object obj)
 		{
 			currentObjects.Remove(obj);
+		}
+
+		//Handles specific collision between objects 
+		static void HandleCollision()
+		{
+			Object? player = currentObjects.Find(p => p.name == "PLAYER");
+			Object? ground = currentObjects.Find(p => p.name == "GROUND");
+
+			if (player != null && ground != null && S_CollisionHandler.IsColliding(player, ground))
+			{
+				player.OnHit(ground);
+				ground.OnHit(player);
+			}
+			
+			//Loop all platforms the player can collide with here and change position based on next position
+
+
 		}
 
 	}
