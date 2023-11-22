@@ -62,7 +62,7 @@ namespace a4_2D_Game
 		{
 			//All the images go here. They need a name and the filepath.
 			//Put .png files in the resources folder in bin/debug/
-			S_TextureHandler.LoadImage("player", "..\\..\\..\\resources\\test.png");
+			S_TextureHandler.LoadImage("player", "../../../resources/test.png");
 
 
 
