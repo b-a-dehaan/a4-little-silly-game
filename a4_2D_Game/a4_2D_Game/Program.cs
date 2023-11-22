@@ -61,7 +61,8 @@ namespace a4_2D_Game
 		private static void LoadImages()
 		{
 			//All the images go here. They need a name and the filepath.
-			S_TextureHandler.LoadImage("player", "C:\\Users\\User\\Documents\\GitHub\\a4-little-silly-game\\a4_2D_Game\\a4_2D_Game\\resources\\test.png");
+			//Put .png files in the resources folder in bin/debug/
+			S_TextureHandler.LoadImage("player", "resources\\test.png");
 
 
 
