@@ -8,8 +8,8 @@ namespace a4_2D_Game
 	{
 		C_DEFAULT = 0,
 		C_BOXCOLLISION = 1,
-		C_SPHERECOLLISION = 2
-
+		C_SPHERECOLLISION = 2,
+		C_SPRITE = 3
 	
 	
 	}
@@ -29,6 +29,7 @@ namespace a4_2D_Game
 		static void Main(string[] args)
 		{
 			LoadWindow();
+			LoadImages();
 			LoadAllObjects();
 			LoadLevel(1);
 
@@ -40,14 +41,30 @@ namespace a4_2D_Game
 				Raylib.EndDrawing();
 				LateUpdate();
 			}
+
+			CleanUp();
+
 			Raylib.CloseWindow();
 		}
+
+		
+
 
 		//Load any initial values for the window and game. Don't load objects here!
 		static void LoadWindow()
 		{
 			Raylib.InitWindow(Raylib.GetScreenWidth(), Raylib.GetScreenHeight(), "Silly Little Game");
 			Raylib.SetTargetFPS(60);
+		}
+		
+		//Loads the images used in the game.
+		private static void LoadImages()
+		{
+			//All the images go here. They need a name and the filepath.
+			S_TextureHandler.LoadImage("player", "C:\\Users\\User\\Documents\\GitHub\\a4-little-silly-game\\a4_2D_Game\\a4_2D_Game\\resources\\test.png");
+
+
+
 		}
 
 		//Loads all the objects in the game. Anything added here is "automatically" updated and drawn.
@@ -117,7 +134,7 @@ namespace a4_2D_Game
 		}
 
 		//Write an error messsage to the console window as needed.
-		static void WriteError(string msg)
+		public static void WriteError(string msg)
 		{
 			Console.ForegroundColor = ConsoleColor.Red;
 			Console.WriteLine(msg);
@@ -162,5 +179,15 @@ namespace a4_2D_Game
 
 		}
 
+		//Cleans up before exiting
+		private static void CleanUp()
+		{
+			currentObjects.Clear();
+			allObjects.Clear();
+			S_TextureHandler.UnloadAll();
+		}
+
+
 	}
+
 }

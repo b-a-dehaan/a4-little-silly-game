@@ -13,6 +13,9 @@ namespace a4_2D_Game
 	internal class Player : Object
 	{
 		private Input playerInput;
+
+		C_Sprite spriteComponent;
+
 		public Player(float posX, float posY, float sizeX, float sizeY, Input pInput) : base()
 		{
 			position.X = posX;
@@ -21,12 +24,20 @@ namespace a4_2D_Game
 			size.Y = sizeY;
 			playerInput = pInput;
 		}
-
+		
 		public override void Load()
 		{
 			name = "PLAYER";
 			canMove = true;
+			//Put any components you want to attach here
 			components.Add(new C_BoxCollision(this));
+
+			spriteComponent = new C_Sprite(this);
+			components.Add(spriteComponent);
+			spriteComponent.LoadSpriteTexture(S_TextureHandler.GetImage("player"));
+			spriteComponent.AddTextureFrame(0, 0, 842, 1024, 0);
+			
+
 			base.Load();
 		}
 
@@ -65,7 +76,10 @@ namespace a4_2D_Game
 		}
 		public override void Draw()
 		{
-			Raylib.DrawRectangle((int)position.X, (int)position.Y, (int)size.X, (int)size.Y, Color.SKYBLUE);
+
+			Raylib.DrawTextureRec(spriteComponent.texture, spriteComponent.GetFrameRectangle(), position, Color.WHITE);
+			
+				
 			base.Draw();
 		}
 
