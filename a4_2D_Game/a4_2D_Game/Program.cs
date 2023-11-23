@@ -10,9 +10,8 @@ namespace a4_2D_Game
 		C_DEFAULT = 0,
 		C_BOXCOLLISION = 1,
 		C_SPHERECOLLISION = 2,
-		C_SPRITE = 3
-	
-	
+		C_SPRITE = 3,
+		C_ANIMATION = 4
 	}
 
 	internal class Program
@@ -134,7 +133,7 @@ namespace a4_2D_Game
 			{
 				obj.Draw();
 
-				if (obj.components.Find(c => c.GetId() == E_ComponentID.C_BOXCOLLISION) is C_BoxCollision box)
+				if (obj.GetComponent(E_ComponentID.C_BOXCOLLISION) is C_BoxCollision box)
 				{
 					Raylib.DrawRectangleLines((int)box.position.X, (int)box.position.Y, (int)box.size.X, (int)box.size.Y, Color.RED);
 				}

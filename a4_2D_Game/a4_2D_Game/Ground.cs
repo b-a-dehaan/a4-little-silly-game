@@ -35,15 +35,14 @@ namespace a4_2D_Game
 			//Load texture for spriteComponent
 			spriteComponent.LoadSpriteTexture(S_TextureHandler.GetImage("background"));
 
-			//Add texture frames for animation here. The x,y coord of image on source picture and its width, height.
-			//Only include if you have a spriteComponent
-			spriteComponent.AddTextureFrame(20, 721, (int)startSize.X, (int)startSize.Y, 0);
+			//Set source rectange if there is no animation component attached.
+			sourceRec = new Rectangle(20, 721, (int)startSize.X, (int)startSize.Y);
 
 			//Set default values that may be important. Scale object here instead of changing size
 			scale = new Vector2(2f, 2f);
 			rotation = 0;
 
-			if (components.Find(c => c.GetId() == E_ComponentID.C_BOXCOLLISION) is C_BoxCollision box)
+			if (GetComponent(E_ComponentID.C_BOXCOLLISION) is C_BoxCollision box)
 			{
 				box.AddOffset(new Vector2(0, 50));
 				box.ChangeSize(new Vector2(0, -50));
@@ -51,13 +50,5 @@ namespace a4_2D_Game
 
 			base.Load();
 		}
-		public override void Draw()
-		{
-			base.Draw();
-		}
-
-
-
-
 	}
 }
