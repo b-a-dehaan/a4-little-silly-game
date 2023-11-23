@@ -11,7 +11,8 @@ namespace a4_2D_Game
 		C_BOXCOLLISION = 1,
 		C_SPHERECOLLISION = 2,
 		C_SPRITE = 3,
-		C_ANIMATION = 4
+		C_ANIMATION = 4,
+		C_CAMERA = 5
 	}
 
 	internal class Program
