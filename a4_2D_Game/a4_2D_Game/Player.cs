@@ -12,31 +12,45 @@ namespace a4_2D_Game
 {
 	internal class Player : Object
 	{
-		private Input playerInput;
+		Input playerInput;
 
-		C_Sprite spriteComponent;
-
-		public Player(float posX, float posY, float sizeX, float sizeY, Input pInput) : base()
+		public Player(Vector2 pos) : base(pos)
 		{
-			position.X = posX;
-			position.Y = posY;
-			size.X = sizeX;
-			size.Y = sizeY;
-			playerInput = pInput;
+			playerInput = new Input();
 		}
-		
-		public override void Load()
+		public override void Awake()
 		{
-			name = "PLAYER";
-			canMove = true;
 			//Put any components you want to attach here
 			components.Add(new C_BoxCollision(this));
 
-			spriteComponent = new C_Sprite(this);
-			components.Add(spriteComponent);
-			spriteComponent.LoadSpriteTexture(S_TextureHandler.GetImage("player"));
-			spriteComponent.AddTextureFrame(0, 0, 842, 1024, 0);
+			base.Awake();
+		}
+		public override void Load()
+		{
+			//Copy this for your own objects and change the values as needed.
+
+			name = "PLAYER";
+			canMove = true;
+
+			//Image size of player
+			startSize.X = 690;
+			startSize.Y = 1374;
 			
+			//Load texture for spriteComponent
+			spriteComponent.LoadSpriteTexture(S_TextureHandler.GetImage("player"));
+
+			//Add texture frames for animation here. The x,y coord of image on source picture and its width, height.
+			//Only include if you have a spriteComponent
+			spriteComponent.AddTextureFrame(0, 200, (int)startSize.X, (int)startSize.Y, 10);
+			spriteComponent.AddTextureFrame(700, 200, (int)startSize.X, (int)startSize.Y, 10);
+			spriteComponent.AddTextureFrame(1400, 200, (int)startSize.X, (int)startSize.Y, 10);
+			spriteComponent.AddTextureFrame(2100, 200, (int)startSize.X, (int)startSize.Y, 10);
+			spriteComponent.AddTextureFrame(2800, 200, (int)startSize.X, (int)startSize.Y, 10);
+			spriteComponent.AddTextureFrame(3500, 200, (int)startSize.X, (int)startSize.Y, 10);
+
+			//Set default values that may be important. Scale object here instead of changing size
+			scale = new Vector2(0.1f, 0.1f);
+			rotation = 0;
 
 			base.Load();
 		}
@@ -44,6 +58,7 @@ namespace a4_2D_Game
 		public override void Update()
 		{
 			playerInput.Update();
+			spriteComponent.GoToNextFrame();
 			base.Update();
 		}
 		public override void Move()
@@ -76,10 +91,6 @@ namespace a4_2D_Game
 		}
 		public override void Draw()
 		{
-
-			Raylib.DrawTextureRec(spriteComponent.texture, spriteComponent.GetFrameRectangle(), position, Color.WHITE);
-			
-				
 			base.Draw();
 		}
 
@@ -89,7 +100,11 @@ namespace a4_2D_Game
 			{
 				falling = false;
 				onGround = true;
-				nextPosition.Y = otherObj.position.Y - size.Y;
+				if (otherObj.components.Find(c => c.GetId() == E_ComponentID.C_BOXCOLLISION) is C_BoxCollision box)
+				{
+					nextPosition.Y = box.position.Y - scaledSize.Y;
+				}
+					
 			}
 
 

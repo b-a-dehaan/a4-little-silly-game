@@ -23,13 +23,18 @@ namespace a4_2D_Game
 	{
 		
 		public List<Component> components = new List<Component>();
+		public C_Sprite spriteComponent;
 
 		public Vector2 position = new Vector2(0,0);
 		public Vector2 nextPosition = new Vector2(0,0);
-		public Vector2 size = new Vector2(0, 0);
+		public Vector2 startSize = new Vector2(0, 0);
+		public Vector2 scaledSize = new Vector2(0, 0);
+		public Vector2 scale = new Vector2(1, 1);
+		public Vector2 origin = new Vector2(0,0);
 		public Vector2 velocity = new Vector2(0, 0);
 		public Vector2 curAcceleration;
-		
+		public float rotation = 0;
+
 		public const float MAXVELOCITY = 500.0f;
 		public const float ACCELERATION_RATE = 50;
 		public const float GRAVITY = 9.8f;
@@ -42,16 +47,29 @@ namespace a4_2D_Game
 		public bool startedColliding = false;
 
 		public string name = "";
+
+		public Object(Vector2 pos)
+		{
+			position = pos;
+		}
+
+		//Happens before loading. Declare components here.
+		public virtual void Awake()
+		{
+			//All objects have a sprite component
+			spriteComponent = new C_Sprite(this);
+			components.Add(spriteComponent);
+		}
 		public virtual void Load()
 		{
 			isVisible = true;
 			nextPosition = position;
+			scaledSize = startSize * scale;
 			//Load components added in the child class's load method (i.e. player) 
 			foreach (var component in components)
 			{
 				component.Load();
 			}
-			
 		}
 		public virtual void Update()
 		{
@@ -71,7 +89,13 @@ namespace a4_2D_Game
 		
 		public virtual void Draw()
 		{
-			
+			if (spriteComponent != null)
+			{
+				Rectangle targetRec = new Rectangle(position.X, position.Y, scaledSize.X, scaledSize.Y);
+				Rectangle sourceRec = spriteComponent.GetFrameRectangle();
+
+				Raylib.DrawTexturePro(spriteComponent.texture, sourceRec, targetRec, origin, rotation, Color.WHITE);
+			}
 		}
 
 		public virtual void Move()

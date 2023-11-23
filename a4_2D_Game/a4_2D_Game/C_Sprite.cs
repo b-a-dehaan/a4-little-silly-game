@@ -32,6 +32,8 @@ namespace a4_2D_Game
 		public List<Frame> frames = new List<Frame>();
 		public Texture2D texture;
 		public Frame curFrame;
+		public int curFrameNum = 0;
+		public int curInterval = 0;
 
 		public C_Sprite(Object parentObj) :base (ID,parentObj)
 		{
@@ -49,6 +51,20 @@ namespace a4_2D_Game
 			
 		}
 
+		public void GoToNextFrame()
+		{
+			if(curInterval > curFrame.interval)
+			{
+				curFrameNum = curFrameNum < frames.Count - 1 ? curFrameNum + 1 : 0;
+				curFrame = frames[curFrameNum];
+				curInterval = 0;
+			}
+			else
+			{
+				curInterval++;
+			}
+			
+		}
 
 		//Adds a new frame to the frame list component
 		public void AddTextureFrame(int sourceX, int sourceY, int sourceWidth, int sourceHeight, float interval)

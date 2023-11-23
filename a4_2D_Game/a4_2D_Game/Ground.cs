@@ -10,24 +10,49 @@ namespace a4_2D_Game
 {
 	internal class Ground : Object
 	{
-		public Ground()
+		public Ground(Vector2 pos) : base(pos)
 		{
 			
 		}
+
+		public override void Awake()
+		{
+			//Put any components you want to attach here
+			
+			components.Add(new C_BoxCollision(this));
+
+			base.Awake();
+		}
+
 		public override void Load()
 		{
 			name = "GROUND";
-			position = new Vector2(0, Raylib.GetScreenHeight() * 0.9f);
-			size = new Vector2(Raylib.GetScreenWidth(), Raylib.GetScreenHeight() * 0.1f);
+		
+			//Image size of ground
+			startSize.X = 794;
+			startSize.Y = 118;
+			
+			//Load texture for spriteComponent
+			spriteComponent.LoadSpriteTexture(S_TextureHandler.GetImage("background"));
 
-			components.Add(new C_BoxCollision(this));
+			//Add texture frames for animation here. The x,y coord of image on source picture and its width, height.
+			//Only include if you have a spriteComponent
+			spriteComponent.AddTextureFrame(20, 721, (int)startSize.X, (int)startSize.Y, 0);
+
+			//Set default values that may be important. Scale object here instead of changing size
+			scale = new Vector2(2f, 2f);
+			rotation = 0;
+
+			if (components.Find(c => c.GetId() == E_ComponentID.C_BOXCOLLISION) is C_BoxCollision box)
+			{
+				box.AddOffset(new Vector2(0, 50));
+				box.ChangeSize(new Vector2(0, -50));
+			}
 
 			base.Load();
 		}
 		public override void Draw()
 		{
-			Raylib.DrawRectangle((int)position.X, (int)position.Y, (int)size.X, (int)size.Y, Color.GREEN);
-
 			base.Draw();
 		}
 

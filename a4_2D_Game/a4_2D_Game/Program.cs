@@ -1,4 +1,5 @@
 ﻿using Raylib_cs;
+using System.Numerics;
 
 namespace a4_2D_Game
 {
@@ -61,10 +62,10 @@ namespace a4_2D_Game
 		private static void LoadImages()
 		{
 			//All the images go here. They need a name and the filepath.
-			//Put .png files in the resources folder in bin/debug/
-			S_TextureHandler.LoadImage("player", "../../../resources/test.png");
+			//Put .png files in the resources folder and use 3 ../ 's when writing filepath.
+			S_TextureHandler.LoadImage("player", "../../../resources/playersprites.png");
 
-
+			S_TextureHandler.LoadImage("background", "../../../resources/silly-sprite-good-copy.png");
 
 		}
 
@@ -73,10 +74,10 @@ namespace a4_2D_Game
 		{
 			//Add objects behind player here...
 
-			AddObject(new Ground(), 1);
+			AddObject(new Ground(new Vector2(0, Raylib.GetScreenHeight() * 0.9f)), 1);
 
-			//Add a player object on level 1. Other objects wont need input stuff.
-			AddObject(new Player(500, 500, 100, 100, new Input()), 1); //Player has position.X, position.Y, size.X, size.Y, and Input class as parameters
+			//Add a player object on level 1. 500, 500 is the starting position.
+			AddObject(new Player(new Vector2(500,500)), 1);
 
 			//Add other objects here...
 
@@ -98,6 +99,7 @@ namespace a4_2D_Game
 
 			foreach (Object obj in currentObjects)
 			{
+				obj.Awake();
 				obj.Load();
 			}
 			
@@ -131,6 +133,12 @@ namespace a4_2D_Game
 			foreach (Object obj in currentObjects)
 			{
 				obj.Draw();
+
+				if (obj.components.Find(c => c.GetId() == E_ComponentID.C_BOXCOLLISION) is C_BoxCollision box)
+				{
+					Raylib.DrawRectangleLines((int)box.position.X, (int)box.position.Y, (int)box.size.X, (int)box.size.Y, Color.RED);
+				}
+
 			}
 		}
 
