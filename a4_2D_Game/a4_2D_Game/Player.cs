@@ -70,22 +70,28 @@ namespace a4_2D_Game
 
 			//MOVE Animations
 			Animation moveAnim = new Animation(AnimationType.MOVE);
-			moveAnim.AddTextureFrame(0, 3118, 749, 1287, 5);
-			moveAnim.AddTextureFrame(812, 3155, 719, 1250, 5);
-			moveAnim.AddTextureFrame(1551, 3154, 709, 1244, 5);
-			moveAnim.AddTextureFrame(2319, 3120, 648, 1278, 5);
-			moveAnim.AddTextureFrame(3026, 3057, 708, 1348, 5);
-			moveAnim.AddTextureFrame(3792, 3056, 724, 1229, 5);
-			moveAnim.AddTextureFrame(4574, 3118, 708, 1281, 5);
-			moveAnim.AddTextureFrame(5342, 3135, 741, 1250, 5);
-			moveAnim.AddTextureFrame(6143, 3141, 709, 1244, 5);
-			moveAnim.AddTextureFrame(18, 4643, 648, 1278, 5);
-			moveAnim.AddTextureFrame(667, 4572, 707, 1349, 5);
-			moveAnim.AddTextureFrame(1448, 4572, 723, 1229, 5);
+			moveAnim.AddTextureFrame(0, 3118, 749, 1287, 2);
+			moveAnim.AddTextureFrame(812, 3155, 719, 1250, 2);
+			moveAnim.AddTextureFrame(1551, 3154, 709, 1244, 2);
+			moveAnim.AddTextureFrame(2319, 3120, 648, 1278, 2);
+			moveAnim.AddTextureFrame(3026, 3057, 708, 1348, 2);
+			moveAnim.AddTextureFrame(3792, 3056, 724, 1229, 2);
+			moveAnim.AddTextureFrame(4574, 3118, 708, 1281, 2);
+			moveAnim.AddTextureFrame(5342, 3135, 741, 1250, 2);
+			moveAnim.AddTextureFrame(6143, 3141, 709, 1244, 2);
+			moveAnim.AddTextureFrame(18, 4643, 648, 1278, 2);
+			moveAnim.AddTextureFrame(667, 4572, 707, 1349, 2);
+			moveAnim.AddTextureFrame(1448, 4572, 723, 1229, 2);
 			animComponent.AddAnimation(AnimationType.MOVE, moveAnim);
 
-			
-			animComponent.SwitchAnimation(AnimationType.IDLE);
+			//JUMP ANIMATION
+			Animation jumpAnim = new Animation(AnimationType.JUMP);
+			jumpAnim.AddTextureFrame(1, 1834, 160,1222,5);
+            jumpAnim.AddTextureFrame(695, 1666, 663, 1390, 5);
+            jumpAnim.AddTextureFrame(1, 1834, 160, 1222, 5);
+			animComponent.AddAnimation(AnimationType.JUMP, jumpAnim);
+
+            animComponent.SwitchAnimation(AnimationType.IDLE);
 			
 		}
 
