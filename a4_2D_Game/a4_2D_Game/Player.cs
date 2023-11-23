@@ -93,6 +93,10 @@ namespace a4_2D_Game
             jumpAnim.AddTextureFrame(1, 1834, 160, 1222, 5);
 			animComponent.AddAnimation(AnimationType.JUMP, jumpAnim);
 
+			//HURT ANIMATION
+			Animation hurtAnim = new Animation(AnimationType.HURT);
+
+
             animComponent.SwitchAnimation(AnimationType.IDLE);
 			
 		}

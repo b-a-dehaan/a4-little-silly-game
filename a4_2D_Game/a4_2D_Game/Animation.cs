@@ -48,7 +48,8 @@ namespace a4_2D_Game
 		IDLE = 1,
 		MOVE = 2,
 		JUMP = 3,
-		FALL = 4
-	}
+		FALL = 4,
+        HURT = 5
+    }
 
 }
