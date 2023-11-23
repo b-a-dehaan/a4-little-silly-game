@@ -23,14 +23,21 @@ namespace a4_2D_Game
 	{
 		
 		public List<Component> components = new List<Component>();
+		public C_Sprite spriteComponent;
+		public Rectangle sourceRec = new Rectangle(0, 0, 0, 0);
+		public Rectangle targetRec = new Rectangle(0,0,0,0);
 
 		public Vector2 position = new Vector2(0,0);
 		public Vector2 nextPosition = new Vector2(0,0);
-		public Vector2 size = new Vector2(0, 0);
+		public Vector2 startSize = new Vector2(0, 0);
+		public Vector2 scaledSize = new Vector2(0, 0);
+		public Vector2 scale = new Vector2(1, 1);
+		public Vector2 origin = new Vector2(0,0);
 		public Vector2 velocity = new Vector2(0, 0);
 		public Vector2 curAcceleration;
-		
-		public const float MAXVELOCITY = 500.0f;
+		public float rotation = 0;
+
+		public const float MAXVELOCITY = 250.0f;
 		public const float ACCELERATION_RATE = 50;
 		public const float GRAVITY = 9.8f;
 		public const float FRICTION = -20f;
@@ -42,26 +49,41 @@ namespace a4_2D_Game
 		public bool startedColliding = false;
 
 		public string name = "";
+
+		public Object(Vector2 pos)
+		{
+			position = pos;
+		}
+
+		//Happens before loading. Declare components here.
+		public virtual void Awake()
+		{
+			//All objects have a sprite component
+			spriteComponent = new C_Sprite(this);
+			components.Add(spriteComponent);
+		}
 		public virtual void Load()
 		{
 			isVisible = true;
 			nextPosition = position;
+			scaledSize = startSize * scale;
+
 			//Load components added in the child class's load method (i.e. player) 
 			foreach (var component in components)
 			{
 				component.Load();
 			}
-			
 		}
 		public virtual void Update()
 		{
-			if(canMove) Move();
+			if (canMove) Move();
 			//Update existing components
+			targetRec = new Rectangle(position.X, position.Y, scaledSize.X, scaledSize.Y);
+			
 			foreach (var component in components)
 			{
 				component.Update();
 			}
-			
 		}
 
 		public virtual void LateUpdate()
@@ -71,7 +93,7 @@ namespace a4_2D_Game
 		
 		public virtual void Draw()
 		{
-			
+			Raylib.DrawTexturePro(spriteComponent.texture, sourceRec, targetRec, origin, rotation, Color.WHITE);
 		}
 
 		public virtual void Move()
@@ -95,8 +117,9 @@ namespace a4_2D_Game
 			velocity.Y += curAcceleration.Y;
 
 			nextPosition += velocity * Raylib.GetFrameTime();
-		}
+			
 
+		}
 		public bool HasComponent(E_ComponentID ID)
 		{
 			foreach(var component in components)
@@ -105,6 +128,11 @@ namespace a4_2D_Game
 			}
 
 			return false;
+		}
+
+		public Component? GetComponent(E_ComponentID ID)
+		{
+			return components.Find(x => x.GetId() == ID);
 		}
 		
 		public virtual void OnHit(Object otherObj)

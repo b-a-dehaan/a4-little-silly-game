@@ -13,7 +13,7 @@ namespace a4_2D_Game
 	internal class C_BoxCollision : Component
 	{
 		public Vector2 position;
-		public Vector2 offset;
+		public Vector2 offset = new Vector2(0, 0);
 		public Vector2 size;
 
 		static E_ComponentID ID = E_ComponentID.C_BOXCOLLISION; //This is true for all Box colliders so static
@@ -24,9 +24,8 @@ namespace a4_2D_Game
 
 		public override void Load()
 		{
-			position = GetParentObject().nextPosition;
-			size = GetParentObject().size;
-			offset = new Vector2(0,0);
+			position = GetParentObject().nextPosition + offset;
+			size = GetParentObject().scaledSize;
 
 			base.Load();
 		}
@@ -43,11 +42,11 @@ namespace a4_2D_Game
 
 		public void ChangeSize(Vector2 s)
 		{
-			size = s;
+			size += s;
 		}
 		public void AddOffset(Vector2 off)
 		{
-			offset = off;
+			offset += off;
 		}
 
 	}
