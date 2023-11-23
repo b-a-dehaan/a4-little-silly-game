@@ -28,6 +28,8 @@ namespace a4_2D_Game
 			animComponent = new C_Animation(this);
 			components.Add(animComponent);
 
+			components.Add(new C_Camera(this));
+
 			base.Awake();
 		}
 		public override void Load()

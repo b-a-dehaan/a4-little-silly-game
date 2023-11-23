@@ -126,7 +126,7 @@ namespace a4_2D_Game
 			{
 				if(component.GetId() == ID) return true;
 			}
-
+			
 			return false;
 		}
 
