@@ -71,20 +71,35 @@ namespace a4_2D_Game
 		//Loads all the objects in the game. Anything added here is "automatically" updated and drawn.
 		static void LoadAllObjects()
 		{
-			//Add objects behind player here...
+            //Add objects behind player here...
+            AddObject(new ColorBackground(new Vector2(-290, -190)), 1);
 
+<<<<<<< Updated upstream
 			AddObject(new Ground(), 1);
 
 			//Add a player object on level 1. Other objects wont need input stuff.
 			AddObject(new Player(500, 500, 100, 100, new Input()), 1); //Player has position.X, position.Y, size.X, size.Y, and Input class as parameters
+=======
+            AddObject(new Ground(new Vector2(0, Raylib.GetScreenHeight() * 0.7f)), 1);
 
-			//Add other objects here...
+            AddObject(new Trees2(new Vector2(-113, 0)), 1);
+>>>>>>> Stashed changes
 
-			
+            AddObject(new Trees(new Vector2(2, 5)), 1);
+
+            //Add a player object on level 1. 500, 500 is the starting position.
+            AddObject(new Player(new Vector2(500,500)), 1);
+
+            AddObject(new Lighting(new Vector2(10, 0)), 1);
+
+            AddObject(new Bushes(new Vector2(30, 615)), 1);
+
+            //Add other objects here...
 
 
 
-		}
+
+        }
 
 
 		//Load a specific level and all the objects associated with it.
