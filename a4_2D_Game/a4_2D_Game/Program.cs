@@ -1,4 +1,5 @@
 ﻿using Raylib_cs;
+using System.Numerics;
 
 namespace a4_2D_Game
 {
@@ -9,9 +10,9 @@ namespace a4_2D_Game
 		C_DEFAULT = 0,
 		C_BOXCOLLISION = 1,
 		C_SPHERECOLLISION = 2,
-		C_SPRITE = 3
-	
-	
+		C_SPRITE = 3,
+		C_ANIMATION = 4,
+		C_CAMERA = 5
 	}
 
 	internal class Program
@@ -61,45 +62,30 @@ namespace a4_2D_Game
 		private static void LoadImages()
 		{
 			//All the images go here. They need a name and the filepath.
-			//Put .png files in the resources folder in bin/debug/
-			S_TextureHandler.LoadImage("player", "../../../resources/test.png");
+			//Put .png files in the resources folder and use 3 ../ 's when writing filepath.
+			S_TextureHandler.LoadImage("player", "../../../resources/playersprites.png");
 
-
+			S_TextureHandler.LoadImage("background", "../../../resources/silly-sprite-good-copy.png");
 
 		}
 
 		//Loads all the objects in the game. Anything added here is "automatically" updated and drawn.
 		static void LoadAllObjects()
 		{
-            //Add objects behind player here...
-            AddObject(new ColorBackground(new Vector2(-290, -190)), 1);
+			//Add objects behind player here...
 
-<<<<<<< Updated upstream
-			AddObject(new Ground(), 1);
+			AddObject(new Ground(new Vector2(0, Raylib.GetScreenHeight() * 0.9f)), 1);
 
-			//Add a player object on level 1. Other objects wont need input stuff.
-			AddObject(new Player(500, 500, 100, 100, new Input()), 1); //Player has position.X, position.Y, size.X, size.Y, and Input class as parameters
-=======
-            AddObject(new Ground(new Vector2(0, Raylib.GetScreenHeight() * 0.7f)), 1);
+			//Add a player object on level 1. 500, 500 is the starting position.
+			AddObject(new Player(new Vector2(500,500)), 1);
 
-            AddObject(new Trees2(new Vector2(-113, 0)), 1);
->>>>>>> Stashed changes
+			//Add other objects here...
 
-            AddObject(new Trees(new Vector2(2, 5)), 1);
-
-            //Add a player object on level 1. 500, 500 is the starting position.
-            AddObject(new Player(new Vector2(500,500)), 1);
-
-            AddObject(new Lighting(new Vector2(10, 0)), 1);
-
-            AddObject(new Bushes(new Vector2(30, 615)), 1);
-
-            //Add other objects here...
+			
 
 
 
-
-        }
+		}
 
 
 		//Load a specific level and all the objects associated with it.
@@ -113,6 +99,7 @@ namespace a4_2D_Game
 
 			foreach (Object obj in currentObjects)
 			{
+				obj.Awake();
 				obj.Load();
 			}
 			
@@ -146,6 +133,12 @@ namespace a4_2D_Game
 			foreach (Object obj in currentObjects)
 			{
 				obj.Draw();
+
+				if (obj.GetComponent(E_ComponentID.C_BOXCOLLISION) is C_BoxCollision box)
+				{
+					Raylib.DrawRectangleLines((int)box.position.X, (int)box.position.Y, (int)box.size.X, (int)box.size.Y, Color.RED);
+				}
+
 			}
 		}
 
