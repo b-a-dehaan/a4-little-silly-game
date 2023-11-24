@@ -26,6 +26,8 @@ namespace a4_2D_Game
 		static Dictionary<int, List<Object>> allObjects = new Dictionary<int, List<Object>>();
 		static List<Object> currentObjects = new List<Object>();
 
+		const int SCREEN_WIDTH = 1920;
+		const int SCREEN_HEIGHT = 1080;
 
 		static void Main(string[] args)
 		{
@@ -54,7 +56,7 @@ namespace a4_2D_Game
 		//Load any initial values for the window and game. Don't load objects here!
 		static void LoadWindow()
 		{
-			Raylib.InitWindow(Raylib.GetScreenWidth(), Raylib.GetScreenHeight(), "Silly Little Game");
+			Raylib.InitWindow(SCREEN_WIDTH,SCREEN_HEIGHT, "Silly Little Game");
 			Raylib.SetTargetFPS(60);
 		}
 		
@@ -79,7 +81,7 @@ namespace a4_2D_Game
 
             AddObject(new Trees(new Vector2(2, 5)), 1);
 
-            AddObject(new Ground(new Vector2(0, Raylib.GetScreenHeight() * 0.7f)), 1);
+            AddObject(new Ground(new Vector2(0, SCREEN_HEIGHT * 0.8f)), 1);
 
 			//Add a player object on level 1. 500, 500 is the starting position.
 			AddObject(new Player(new Vector2(500,500)), 1);
