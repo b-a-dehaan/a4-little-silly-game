@@ -34,8 +34,8 @@ namespace a4_2D_Game
 		}
 		private static bool CheckCollision(C_BoxCollision c1, C_BoxCollision c2)
 		{
-			Rectangle rect1 = new Rectangle((int)c1.position.X, (int)c1.position.Y, (int)c1.size.X, (int)c1.size.Y);
-			Rectangle rect2 = new Rectangle((int)c2.position.X, (int)c2.position.Y, (int)c2.size.X, (int)c2.size.Y);
+			Rectangle rect1 = new Rectangle((int)c1.position.X - (int)Program.camera.GetPosition().X, (int)c1.position.Y - (int)Program.camera.GetPosition().Y, (int)c1.size.X, (int)c1.size.Y);
+			Rectangle rect2 = new Rectangle((int)c2.position.X - (int)Program.camera.GetPosition().X, (int)c2.position.Y - (int)Program.camera.GetPosition().Y, (int)c2.size.X, (int)c2.size.Y);
 
 			return rect1.IntersectsWith(rect2);
 		}

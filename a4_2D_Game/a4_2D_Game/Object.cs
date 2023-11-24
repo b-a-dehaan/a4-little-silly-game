@@ -53,6 +53,7 @@ namespace a4_2D_Game
 		public Object(Vector2 pos)
 		{
 			position = pos;
+			nextPosition = position;
 		}
 
 		//Happens before loading. Declare components here.

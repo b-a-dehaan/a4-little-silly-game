@@ -29,7 +29,7 @@ namespace a4_2D_Game
 		public const int SCREEN_WIDTH = 1600;
 		public const int SCREEN_HEIGHT = 900;
 
-		static C_Camera? camera;
+		static public C_Camera? camera;
 
 		static void Main(string[] args)
 		{
@@ -68,6 +68,7 @@ namespace a4_2D_Game
 			//All the images go here. They need a name and the filepath.
 			//Put .png files in the resources folder and use 3 ../ 's when writing filepath.
 			S_TextureHandler.LoadImage("player", "../../../resources/playersprites.png");
+			S_TextureHandler.LoadImage("enemy", "../../../resources/enemysprites.png");
 
 			S_TextureHandler.LoadImage("background", "../../../resources/silly-sprite-good-copy.png");
 
@@ -91,12 +92,12 @@ namespace a4_2D_Game
             AddObject(new Lighting(new Vector2(10, 0)), 1);
 
             AddObject(new Bushes(new Vector2(30, 615)), 1);
-            //Add other objects here...
+			//Add other objects here...
 
 
 
 
-
+			AddObject(new Enemy_Fly(new Vector2(600, 600)), 1);
         }
 
 
@@ -129,11 +130,13 @@ namespace a4_2D_Game
 		{
 			foreach (Object obj in currentObjects)
 			{
+				
+				obj.Update();
+				
 				if (camera != null)
 				{
 					obj.SetTargetRect(obj.position - camera.position, obj.scaledSize);
 				}
-				obj.Update();
 				
 			}
 			HandleCollision();
@@ -144,9 +147,6 @@ namespace a4_2D_Game
 		{
 			foreach (Object obj in currentObjects)
 			{
-				
-				
-
 				obj.LateUpdate();
 			}
 		}
@@ -162,7 +162,10 @@ namespace a4_2D_Game
 
 				if (obj.GetComponent(E_ComponentID.C_BOXCOLLISION) is C_BoxCollision box)
 				{
-					Raylib.DrawRectangleLines((int)box.position.X, (int)box.position.Y, (int)box.size.X, (int)box.size.Y, Color.BLUE);
+					if (camera != null)
+					{
+						Raylib.DrawRectangleLines((int)box.position.X - (int)camera.GetPosition().X, (int)box.position.Y - (int)camera.GetPosition().Y, (int)box.size.X, (int)box.size.Y, Color.BLUE);
+					}
 				}
 
 			}
