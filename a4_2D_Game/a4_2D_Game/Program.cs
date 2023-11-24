@@ -26,8 +26,8 @@ namespace a4_2D_Game
 		static Dictionary<int, List<Object>> allObjects = new Dictionary<int, List<Object>>();
 		static List<Object> currentObjects = new List<Object>();
 
-		public const int SCREEN_WIDTH = 1920;
-		public const int SCREEN_HEIGHT = 1080;
+		public const int SCREEN_WIDTH = 1600;
+		public const int SCREEN_HEIGHT = 900;
 
 		static C_Camera? camera;
 
