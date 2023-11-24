@@ -13,7 +13,8 @@ namespace a4_2D_Game
 	internal class Player : Object
 	{
 		Input playerInput;
-		C_Animation animComponent;
+		C_Animation? animComponent;
+		C_Camera? camera;
 		bool movingLeft = false;
 
 		public Player(Vector2 pos) : base(pos)
@@ -28,7 +29,8 @@ namespace a4_2D_Game
 			animComponent = new C_Animation(this);
 			components.Add(animComponent);
 
-			components.Add(new C_Camera(this));
+			camera = new C_Camera(this);
+			components.Add(camera);
 
 			base.Awake();
 		}
@@ -40,7 +42,7 @@ namespace a4_2D_Game
 			canMove = true;
 
 			//Load texture for spriteComponent
-			spriteComponent.LoadSpriteTexture(S_TextureHandler.GetImage("player"));
+			spriteComponent?.LoadSpriteTexture(S_TextureHandler.GetImage("player"));
 
 			LoadAnimations();
 			
@@ -68,7 +70,7 @@ namespace a4_2D_Game
 			idleAnim.AddTextureFrame(2100, 200, (int)startSize.X, (int)startSize.Y, 10);
 			idleAnim.AddTextureFrame(2800, 200, (int)startSize.X, (int)startSize.Y, 10);
 			idleAnim.AddTextureFrame(3500, 200, (int)startSize.X, (int)startSize.Y, 10);
-			animComponent.AddAnimation(AnimationType.IDLE, idleAnim);
+			animComponent?.AddAnimation(AnimationType.IDLE, idleAnim);
 
 			//MOVE Animations
 			Animation moveAnim = new Animation(AnimationType.MOVE);
@@ -84,20 +86,20 @@ namespace a4_2D_Game
 			moveAnim.AddTextureFrame(18, 4643, 648, 1278, 2);
 			moveAnim.AddTextureFrame(667, 4572, 707, 1349, 2);
 			moveAnim.AddTextureFrame(1448, 4572, 723, 1229, 2);
-			animComponent.AddAnimation(AnimationType.MOVE, moveAnim);
+			animComponent?.AddAnimation(AnimationType.MOVE, moveAnim);
 
 			//JUMP ANIMATION
 			Animation jumpAnim = new Animation(AnimationType.JUMP);
 			jumpAnim.AddTextureFrame(1, 1834, 160,1222,5);
             jumpAnim.AddTextureFrame(695, 1666, 663, 1390, 5);
             jumpAnim.AddTextureFrame(1, 1834, 160, 1222, 5);
-			animComponent.AddAnimation(AnimationType.JUMP, jumpAnim);
+			animComponent?.AddAnimation(AnimationType.JUMP, jumpAnim);
 
 			//HURT ANIMATION
 			Animation hurtAnim = new Animation(AnimationType.HURT);
 
 
-            animComponent.SwitchAnimation(AnimationType.IDLE);
+            animComponent?.SwitchAnimation(AnimationType.IDLE);
 			
 		}
 
@@ -105,6 +107,13 @@ namespace a4_2D_Game
 		{
 			playerInput.Update();
 			UpdateAnimation();
+
+			if(camera != null)
+			{
+				camera.position = position;
+			}
+			
+
 			base.Update();
 		}
 		public override void Move()
@@ -139,28 +148,32 @@ namespace a4_2D_Game
 			if (curAcceleration.X > 20f)
 			{
 				movingLeft = false;
-				if (animComponent.curAnimation.animType != AnimationType.MOVE)
+				if (animComponent?.curAnimation.animType != AnimationType.MOVE)
 				{
-					animComponent.SwitchAnimation(AnimationType.MOVE);
+					animComponent?.SwitchAnimation(AnimationType.MOVE);
 				}
 			}
 			else if (curAcceleration.X < -20f)
 			{
 				movingLeft = true;
-				if (animComponent.curAnimation.animType != AnimationType.MOVE)
+				if (animComponent?.curAnimation.animType != AnimationType.MOVE)
 				{
-					animComponent.SwitchAnimation(AnimationType.MOVE);
+					animComponent?.SwitchAnimation(AnimationType.MOVE);
 				}
 			}
 			else
 			{
-				if (animComponent.curAnimation.animType != AnimationType.IDLE)
+				if (animComponent?.curAnimation.animType != AnimationType.IDLE)
 				{
-					animComponent.SwitchAnimation(AnimationType.IDLE);
+					animComponent?.SwitchAnimation(AnimationType.IDLE);
 				}
 			}
 			
-			sourceRec = animComponent.GetFrameRectangle(movingLeft);
+			if(animComponent != null)
+			{
+				sourceRec = animComponent.GetFrameRectangle(movingLeft);
+			}
+			
 			
 		}
 

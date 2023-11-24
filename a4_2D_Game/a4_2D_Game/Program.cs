@@ -26,8 +26,10 @@ namespace a4_2D_Game
 		static Dictionary<int, List<Object>> allObjects = new Dictionary<int, List<Object>>();
 		static List<Object> currentObjects = new List<Object>();
 
-		const int SCREEN_WIDTH = 1920;
-		const int SCREEN_HEIGHT = 1080;
+		public const int SCREEN_WIDTH = 1920;
+		public const int SCREEN_HEIGHT = 1080;
+
+		static C_Camera? camera;
 
 		static void Main(string[] args)
 		{
@@ -111,7 +113,13 @@ namespace a4_2D_Game
 			{
 				obj.Awake();
 				obj.Load();
+
+				if(obj.GetComponent(E_ComponentID.C_CAMERA) is C_Camera c)
+				{
+					camera = c;
+				}
 			}
+			
 			
 			curLevel = level;
 		}
@@ -121,9 +129,13 @@ namespace a4_2D_Game
 		{
 			foreach (Object obj in currentObjects)
 			{
+				if (camera != null)
+				{
+					obj.SetTargetRect(obj.position - camera.position, obj.scaledSize);
+				}
 				obj.Update();
+				
 			}
-
 			HandleCollision();
 		}
 
@@ -132,6 +144,9 @@ namespace a4_2D_Game
 		{
 			foreach (Object obj in currentObjects)
 			{
+				
+				
+
 				obj.LateUpdate();
 			}
 		}
@@ -142,11 +157,12 @@ namespace a4_2D_Game
 			Raylib.ClearBackground(Color.WHITE);
 			foreach (Object obj in currentObjects)
 			{
+				
 				obj.Draw();
 
 				if (obj.GetComponent(E_ComponentID.C_BOXCOLLISION) is C_BoxCollision box)
 				{
-					Raylib.DrawRectangleLines((int)box.position.X, (int)box.position.Y, (int)box.size.X, (int)box.size.Y, Color.RED);
+					Raylib.DrawRectangleLines((int)box.position.X, (int)box.position.Y, (int)box.size.X, (int)box.size.Y, Color.BLUE);
 				}
 
 			}

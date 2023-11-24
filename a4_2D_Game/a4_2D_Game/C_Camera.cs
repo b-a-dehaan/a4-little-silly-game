@@ -12,8 +12,8 @@ namespace a4_2D_Game
 	{
 		public static E_ComponentID id = E_ComponentID.C_CAMERA;
 
-		public Camera2D camera;
-		
+		public Vector2 offset = new Vector2();
+		public Vector2 position = new Vector2();
 		public float zoom = 1f;
 
 		public C_Camera(Object parentObj) : base(id, parentObj)
@@ -23,18 +23,24 @@ namespace a4_2D_Game
 
 		public override void Load()
 		{
-			camera.Offset = new Vector2(0, -300);
-			camera.Target = GetParentObject().position;
-			camera.Zoom = zoom;
+			offset = new Vector2(-Program.SCREEN_WIDTH * 0.5f, -Program.SCREEN_HEIGHT * 0.6f);
+			position = GetParentObject().position + offset;
 			
 			base.Load();
 		}
 
 		public override void Update()
 		{
-			camera.Target = GetParentObject().position;
+			
+			position = GetParentObject().position + offset;
 			base.Update();
 		}
+
+		public Vector2 GetPosition()
+		{
+			return position;
+		}
+
 
 	}
 }
