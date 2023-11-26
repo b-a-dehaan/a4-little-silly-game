@@ -6,7 +6,6 @@ using System.Numerics;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace a4_2D_Game
 {
@@ -61,15 +60,15 @@ namespace a4_2D_Game
 
 			//Image size of player
 			startSize.X = 690;
-			startSize.Y = 1374;
+			startSize.Y = 1373;
 			//IDLE Animations
 			Animation idleAnim = new Animation(AnimationType.IDLE);
-			idleAnim.AddTextureFrame(0, 200, (int)startSize.X, (int)startSize.Y, 10);
-			idleAnim.AddTextureFrame(700, 200, (int)startSize.X, (int)startSize.Y, 10);
-			idleAnim.AddTextureFrame(1400, 200, (int)startSize.X, (int)startSize.Y, 10);
-			idleAnim.AddTextureFrame(2100, 200, (int)startSize.X, (int)startSize.Y, 10);
-			idleAnim.AddTextureFrame(2800, 200, (int)startSize.X, (int)startSize.Y, 10);
-			idleAnim.AddTextureFrame(3500, 200, (int)startSize.X, (int)startSize.Y, 10);
+			idleAnim.AddTextureFrame(0, 200, 690, 1373, 10);
+			idleAnim.AddTextureFrame(695, 220, 690, 1353, 10);
+			idleAnim.AddTextureFrame(1390, 259, 690, 1314, 10);
+			idleAnim.AddTextureFrame(2085, 230, 690, 1343, 10);
+			idleAnim.AddTextureFrame(2775, 220, 690, 1353, 10);
+			idleAnim.AddTextureFrame(3470, 200, 690, 1373, 10);
 			animComponent?.AddAnimation(AnimationType.IDLE, idleAnim);
 
 			//MOVE Animations
@@ -173,8 +172,10 @@ namespace a4_2D_Game
 			{
 				sourceRec = animComponent.GetFrameRectangle(movingLeft);
 			}
-			
-			
+
+			//startSize = new Vector2(Math.Abs(sourceRec.Width), sourceRec.Height);
+			//scaledSize = startSize * scale;
+
 		}
 
 		public override void OnHit(Object otherObj)

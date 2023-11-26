@@ -32,6 +32,7 @@ namespace a4_2D_Game
 
 			name = "ENEMY";
 			canMove = true;
+			onGround = true;
 
 			//Load texture for spriteComponent
 			spriteComponent?.LoadSpriteTexture(S_TextureHandler.GetImage("enemy"));
@@ -92,7 +93,8 @@ namespace a4_2D_Game
 				sourceRec = animComponent.GetFrameRectangle(movingLeft);
 			}
 
-
+			startSize = new Vector2(Math.Abs(sourceRec.Width), sourceRec.Height);
+			scaledSize = startSize * scale;
 		}
 
 		public override void OnHit(Object otherObj)

@@ -53,7 +53,6 @@ namespace a4_2D_Game
 		public Object(Vector2 pos)
 		{
 			position = pos;
-			nextPosition = position;
 		}
 
 		//Happens before loading. Declare components here.
@@ -68,6 +67,7 @@ namespace a4_2D_Game
 			isVisible = true;
 			nextPosition = position;
 			scaledSize = startSize * scale;
+			//origin = new Vector2(scaledSize.X / 2, scaledSize.Y);
 
 			//Load components added in the child class's load method (i.e. player) 
 			foreach (var component in components)

@@ -165,6 +165,7 @@ namespace a4_2D_Game
 					if (camera != null)
 					{
 						Raylib.DrawRectangleLines((int)box.position.X - (int)camera.GetPosition().X, (int)box.position.Y - (int)camera.GetPosition().Y, (int)box.size.X, (int)box.size.Y, Color.BLUE);
+						Raylib.DrawCircle((int)obj.position.X - (int)camera.GetPosition().X, (int)obj.position.Y - (int)camera.GetPosition().Y, 10, Color.SKYBLUE);
 					}
 				}
 
