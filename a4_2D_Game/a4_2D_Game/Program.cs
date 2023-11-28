@@ -77,8 +77,23 @@ namespace a4_2D_Game
 		//Loads all the objects in the game. Anything added here is "automatically" updated and drawn.
 		static void LoadAllObjects()
 		{
-            //Add objects behind player here...
-            AddObject(new ColorBackground(new Vector2(-290, -190)), 1);
+			//Add objects behind player here...
+
+			int sizeX = 2070;
+			for (int i = 0; i < 10; i++)
+			{
+                ColorBackground cb = new ColorBackground(new Vector2(sizeX * i - 290, -190));
+                if (i % 2 == 1)
+                {
+                    cb.flipped = true;
+                }
+                else
+                {
+                    cb.flipped = false;
+                }
+                AddObject(cb, 1);
+
+            }
 
             AddObject(new Trees2(new Vector2(-113, 0)), 1);
 

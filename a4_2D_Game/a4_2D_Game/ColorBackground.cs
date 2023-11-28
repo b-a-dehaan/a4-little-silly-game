@@ -10,6 +10,9 @@ namespace a4_2D_Game
 {
     internal class ColorBackground: Object
     {
+
+        public bool flipped = false;
+
         public ColorBackground(Vector2 pos) : base(pos)
         {
 
@@ -29,12 +32,18 @@ namespace a4_2D_Game
             //Image size of ground
             startSize.X = 345;
             startSize.Y = 188;
-
             //Load texture for spriteComponent
             spriteComponent.LoadSpriteTexture(S_TextureHandler.GetImage("background"));
 
             //Set source rectange if there is no animation component attached.
-            sourceRec = new Rectangle(559, 514, (int)startSize.X, (int)startSize.Y);
+            if (flipped)
+            {
+                sourceRec = new Rectangle(559, 514, -(int)startSize.X, (int)startSize.Y);
+            }
+            else
+            {
+                sourceRec = new Rectangle(559, 514, (int)startSize.X, (int)startSize.Y);
+            }
 
             //Set default values that may be important. Scale object here instead of changing size
             scale = new Vector2(6f, 6f);
