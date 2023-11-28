@@ -84,6 +84,7 @@ namespace a4_2D_Game
 			int sizeX2 = 1484;
 			int sizeX3 = 1588;
 			int sizeX4 = 1482;
+			int sizeX5 = 1417;
 
 			for (int i = 0; i < 10; i++)
 			{
@@ -163,14 +164,25 @@ namespace a4_2D_Game
 
             }
 
+            for (int i = 0; i < 10; i++)
+			{
+				Bushes bu = new Bushes(new Vector2(sizeX5 * i - 30, 615));
+                if (i % 2 == 1)
+				{
+					bu.flipped = true;
+				}
+				else
+				{
+					bu.flipped = false;
+				}
+                AddObject(bu, 1);
 
-            AddObject(new Bushes(new Vector2(30, 615)), 1);
+            }
+                
 			//Add other objects here...
 
-
-
-
 			AddObject(new Enemy_Fly(new Vector2(600, 600)), 1);
+
         }
 
 
