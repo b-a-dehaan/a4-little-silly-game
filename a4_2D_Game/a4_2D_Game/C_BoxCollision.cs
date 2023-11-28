@@ -24,7 +24,7 @@ namespace a4_2D_Game
 
 		public override void Load()
 		{
-			position = GetParentObject().nextPosition + offset;
+			position = GetParentObject().nextPosition + offset - GetParentObject().origin;
 			size = GetParentObject().scaledSize;
 
 			base.Load();
@@ -34,7 +34,7 @@ namespace a4_2D_Game
 		{
 			if(GetParentObject().canMove)
 			{
-				position = GetParentObject().nextPosition + offset;
+				position = GetParentObject().nextPosition + offset - GetParentObject().origin;
 			}
 			
 			base.Update();

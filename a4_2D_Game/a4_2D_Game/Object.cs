@@ -23,7 +23,7 @@ namespace a4_2D_Game
 	{
 		
 		public List<Component> components = new List<Component>();
-		public C_Sprite spriteComponent;
+		public C_Sprite? spriteComponent;
 		public Rectangle sourceRec = new Rectangle(0, 0, 0, 0);
 		public Rectangle targetRec = new Rectangle(0,0,0,0);
 
@@ -67,6 +67,7 @@ namespace a4_2D_Game
 			isVisible = true;
 			nextPosition = position;
 			scaledSize = startSize * scale;
+			//origin = new Vector2(scaledSize.X / 2, scaledSize.Y);
 
 			//Load components added in the child class's load method (i.e. player) 
 			foreach (var component in components)
@@ -78,7 +79,6 @@ namespace a4_2D_Game
 		{
 			if (canMove) Move();
 			//Update existing components
-			targetRec = new Rectangle(position.X, position.Y, scaledSize.X, scaledSize.Y);
 			
 			foreach (var component in components)
 			{
@@ -93,7 +93,12 @@ namespace a4_2D_Game
 		
 		public virtual void Draw()
 		{
-			Raylib.DrawTexturePro(spriteComponent.texture, sourceRec, targetRec, origin, rotation, Color.WHITE);
+			
+			if(spriteComponent != null && isVisible)
+			{
+				Raylib.DrawTexturePro(spriteComponent.texture, sourceRec, targetRec, origin, rotation, Color.WHITE);
+			}
+			
 		}
 
 		public virtual void Move()
@@ -126,7 +131,7 @@ namespace a4_2D_Game
 			{
 				if(component.GetId() == ID) return true;
 			}
-
+			
 			return false;
 		}
 
@@ -140,6 +145,9 @@ namespace a4_2D_Game
 
 		}
 
-
+		public virtual void SetTargetRect(Vector2 pos, Vector2 size)
+		{
+			targetRec = new Rectangle(pos.X, pos.Y, size.X, size.Y);
+		}
 	}
 }

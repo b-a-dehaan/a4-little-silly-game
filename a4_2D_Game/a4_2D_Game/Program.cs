@@ -11,7 +11,8 @@ namespace a4_2D_Game
 		C_BOXCOLLISION = 1,
 		C_SPHERECOLLISION = 2,
 		C_SPRITE = 3,
-		C_ANIMATION = 4
+		C_ANIMATION = 4,
+		C_CAMERA = 5
 	}
 
 	internal class Program
@@ -25,6 +26,10 @@ namespace a4_2D_Game
 		static Dictionary<int, List<Object>> allObjects = new Dictionary<int, List<Object>>();
 		static List<Object> currentObjects = new List<Object>();
 
+		public const int SCREEN_WIDTH = 1600;
+		public const int SCREEN_HEIGHT = 900;
+
+		static public C_Camera? camera;
 
 		static void Main(string[] args)
 		{
@@ -53,7 +58,7 @@ namespace a4_2D_Game
 		//Load any initial values for the window and game. Don't load objects here!
 		static void LoadWindow()
 		{
-			Raylib.InitWindow(Raylib.GetScreenWidth(), Raylib.GetScreenHeight(), "Silly Little Game");
+			Raylib.InitWindow(SCREEN_WIDTH,SCREEN_HEIGHT, "Silly Little Game");
 			Raylib.SetTargetFPS(60);
 		}
 		
@@ -63,6 +68,7 @@ namespace a4_2D_Game
 			//All the images go here. They need a name and the filepath.
 			//Put .png files in the resources folder and use 3 ../ 's when writing filepath.
 			S_TextureHandler.LoadImage("player", "../../../resources/playersprites.png");
+			S_TextureHandler.LoadImage("enemy", "../../../resources/enemysprites.png");
 
 			S_TextureHandler.LoadImage("background", "../../../resources/silly-sprite-good-copy.png");
 
@@ -71,20 +77,28 @@ namespace a4_2D_Game
 		//Loads all the objects in the game. Anything added here is "automatically" updated and drawn.
 		static void LoadAllObjects()
 		{
-			//Add objects behind player here...
+            //Add objects behind player here...
+            AddObject(new ColorBackground(new Vector2(-290, -190)), 1);
 
-			AddObject(new Ground(new Vector2(0, Raylib.GetScreenHeight() * 0.9f)), 1);
+            AddObject(new Trees2(new Vector2(-113, 0)), 1);
+
+            AddObject(new Trees(new Vector2(2, 5)), 1);
+
+            AddObject(new Ground(new Vector2(0, SCREEN_HEIGHT * 0.8f)), 1);
 
 			//Add a player object on level 1. 500, 500 is the starting position.
 			AddObject(new Player(new Vector2(500,500)), 1);
 
+            AddObject(new Lighting(new Vector2(10, 0)), 1);
+
+            AddObject(new Bushes(new Vector2(30, 615)), 1);
 			//Add other objects here...
 
-			
 
 
 
-		}
+			AddObject(new Enemy_Fly(new Vector2(600, 600)), 1);
+        }
 
 
 		//Load a specific level and all the objects associated with it.
@@ -100,7 +114,13 @@ namespace a4_2D_Game
 			{
 				obj.Awake();
 				obj.Load();
+
+				if(obj.GetComponent(E_ComponentID.C_CAMERA) is C_Camera c)
+				{
+					camera = c;
+				}
 			}
+			
 			
 			curLevel = level;
 		}
@@ -110,9 +130,15 @@ namespace a4_2D_Game
 		{
 			foreach (Object obj in currentObjects)
 			{
+				
 				obj.Update();
+				
+				if (camera != null)
+				{
+					obj.SetTargetRect(obj.position - camera.position, obj.scaledSize);
+				}
+				
 			}
-
 			HandleCollision();
 		}
 
@@ -131,11 +157,16 @@ namespace a4_2D_Game
 			Raylib.ClearBackground(Color.WHITE);
 			foreach (Object obj in currentObjects)
 			{
+				
 				obj.Draw();
 
 				if (obj.GetComponent(E_ComponentID.C_BOXCOLLISION) is C_BoxCollision box)
 				{
-					Raylib.DrawRectangleLines((int)box.position.X, (int)box.position.Y, (int)box.size.X, (int)box.size.Y, Color.RED);
+					if (camera != null)
+					{
+						Raylib.DrawRectangleLines((int)box.position.X - (int)camera.GetPosition().X, (int)box.position.Y - (int)camera.GetPosition().Y, (int)box.size.X, (int)box.size.Y, Color.BLUE);
+						Raylib.DrawCircle((int)obj.position.X - (int)camera.GetPosition().X, (int)obj.position.Y - (int)camera.GetPosition().Y, 10, Color.SKYBLUE);
+					}
 				}
 
 			}
