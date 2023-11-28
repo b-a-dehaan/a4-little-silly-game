@@ -239,7 +239,7 @@ namespace a4_2D_Game
 		//Draw all objects in the current level.
 		static void Draw()
 		{
-			Raylib.ClearBackground(Color.WHITE);
+			Raylib.ClearBackground(Color.DARKGREEN);
 			foreach (Object obj in currentObjects)
 			{
 				
