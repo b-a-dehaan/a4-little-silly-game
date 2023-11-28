@@ -82,6 +82,8 @@ namespace a4_2D_Game
 			int sizeX = 2070;
 			int sizeX1 = 1613;
 			int sizeX2 = 1484;
+			int sizeX3 = 1588;
+			int sizeX4 = 1482;
 
 			for (int i = 0; i < 10; i++)
 			{
@@ -101,14 +103,14 @@ namespace a4_2D_Game
             for (int i = 0; i < 10; i++)
 			{
 				Trees2 tr = new Trees2(new Vector2(sizeX1 * i - -113, 0));
-				if (i % 2 == 1)
-				{
-					tr.flipped = true;
-				}
-				else
-				{
-					tr.flipped = false;
-				}
+                if (i % 2 == 1)
+                {
+                    tr.flipped = true;
+                }
+                else
+                {
+                    tr.flipped = false;
+                }
                 AddObject(tr, 1);
 
             }
@@ -128,13 +130,39 @@ namespace a4_2D_Game
 
             }
 
+            for (int i = 0; i < 10; i++)
+			{
+				Ground gr = new Ground(new Vector2(sizeX3 * i - 0, SCREEN_HEIGHT * 0.75f));
+                if (i % 2 == 1)
+				{
+					gr.flipped = true;
+				}
+				else
+				{
+					gr.flipped = false;
+				}
+                AddObject(gr, 1);
 
-            AddObject(new Ground(new Vector2(0, SCREEN_HEIGHT * 0.8f)), 1);
+            }
 
 			//Add a player object on level 1. 500, 500 is the starting position.
 			AddObject(new Player(new Vector2(500,500)), 1);
 
-            AddObject(new Lighting(new Vector2(10, 0)), 1);
+            for (int i = 0; i < 10; i++)
+			{
+				Lighting li = new Lighting(new Vector2(sizeX4 * i - 10, 0));
+                if (i % 2 == 1)
+				{
+					li.flipped = true;
+				}
+				else
+				{
+					li.flipped = false;
+				}
+                AddObject(li, 1);
+
+            }
+
 
             AddObject(new Bushes(new Vector2(30, 615)), 1);
 			//Add other objects here...
