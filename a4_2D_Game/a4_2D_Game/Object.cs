@@ -47,6 +47,7 @@ namespace a4_2D_Game
 		public bool onGround = false; //If the object is currently on the ground. This is different than falling.
 		public bool isVisible = true; //Should the object be drawn on the screen? Call this in inherited draw method.
 		public bool startedColliding = false;
+		public bool flipped = false;
 
 		public string name = "";
 

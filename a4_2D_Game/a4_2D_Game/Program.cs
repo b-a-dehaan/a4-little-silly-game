@@ -80,6 +80,9 @@ namespace a4_2D_Game
 			//Add objects behind player here...
 
 			int sizeX = 2070;
+			int sizeX1 = 1613;
+			int sizeX2 = 1484;
+
 			for (int i = 0; i < 10; i++)
 			{
                 ColorBackground cb = new ColorBackground(new Vector2(sizeX * i - 290, -190));
@@ -95,9 +98,36 @@ namespace a4_2D_Game
 
             }
 
-            AddObject(new Trees2(new Vector2(-113, 0)), 1);
+            for (int i = 0; i < 10; i++)
+			{
+				Trees2 tr = new Trees2(new Vector2(sizeX1 * i - -113, 0));
+				if (i % 2 == 1)
+				{
+					tr.flipped = true;
+				}
+				else
+				{
+					tr.flipped = false;
+				}
+                AddObject(tr, 1);
 
-            AddObject(new Trees(new Vector2(2, 5)), 1);
+            }
+
+            for (int i = 0; i < 10; i++)
+			{
+				Trees te = new Trees(new Vector2(sizeX2 * i - 2, 5));
+				if (i % 2 == 1)
+				{
+					te.flipped = true;
+				}
+				else
+				{
+					te.flipped = false;
+				}
+                AddObject(te, 1);
+
+            }
+
 
             AddObject(new Ground(new Vector2(0, SCREEN_HEIGHT * 0.8f)), 1);
 
