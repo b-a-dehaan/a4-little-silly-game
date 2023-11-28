@@ -112,7 +112,7 @@ namespace a4_2D_Game
                 {
                     tr.flipped = false;
                 }
-                AddObject(tr, 1);
+                //AddObject(tr, 1);
 
             }
 
