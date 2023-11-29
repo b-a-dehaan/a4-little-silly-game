@@ -11,6 +11,8 @@ namespace a4_2D_Game
 	{
 		public List<Frame> frames = new List<Frame>();
 		public AnimationType animType = AnimationType.NONE;
+		public bool doneAnim = false;
+		public bool loopAnim = true;
 		public Animation(AnimationType aType)
 		{
 			animType = aType;

@@ -25,7 +25,11 @@ namespace a4_2D_Game
 		}
 		public override void Update()
 		{
-			GoToNextFrame();
+			if (curAnimation.loopAnim == true || curAnimation.doneAnim == false)
+			{
+				GoToNextFrame();
+			}
+			
 			base.Update();
 		}
 		public void AddAnimation(AnimationType aType, Animation a)
@@ -40,6 +44,7 @@ namespace a4_2D_Game
 				curFrameNum = 0;
 				curFrame = curAnimation.frames[0];
 				curInterval = 0;
+				curAnimation.doneAnim = false;
 			}
 			else
 			{
@@ -50,9 +55,27 @@ namespace a4_2D_Game
 		{
 			if (curInterval > curFrame.interval && curAnimation.frames.Count > 0)
 			{
-				curFrameNum = curFrameNum < curAnimation.frames.Count - 1 ? curFrameNum + 1 : 0;
-				curFrame = curAnimation.frames[curFrameNum];
-				curInterval = 0;
+				if(curAnimation.loopAnim == true)
+				{
+					curFrameNum = curFrameNum < curAnimation.frames.Count - 1 ? curFrameNum + 1 : 0;
+					curFrame = curAnimation.frames[curFrameNum];
+					curInterval = 0;
+				}
+				else if(curAnimation.doneAnim == false)
+				{
+					if (curFrameNum >= curAnimation.frames.Count - 1)
+					{
+						curAnimation.doneAnim = true;
+					}
+					else
+					{
+						curFrameNum += 1;
+					}
+					
+					curFrame = curAnimation.frames[curFrameNum];
+					curInterval = 0;
+				}
+				
 			}
 			else
 			{

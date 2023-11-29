@@ -290,14 +290,16 @@ namespace a4_2D_Game
 		static void HandleCollision()
 		{
 			Object? player = currentObjects.Find(p => p.name == "PLAYER");
-			Object? ground = currentObjects.Find(p => p.name == "GROUND");
+			var ground = currentObjects.FindAll(p => p.name == "GROUND");
 
-			if (player != null && ground != null && S_CollisionHandler.IsColliding(player, ground))
+			foreach (var obj in ground)
 			{
-				player.OnHit(ground);
-				ground.OnHit(player);
+				if (player != null && obj != null && S_CollisionHandler.IsColliding(player, obj))
+				{
+					player.OnHit(obj);
+					obj.OnHit(player);
+				}
 			}
-			
 			//Loop all platforms the player can collide with here and change position based on next position
 
 

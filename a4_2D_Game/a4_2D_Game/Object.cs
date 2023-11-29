@@ -36,11 +36,14 @@ namespace a4_2D_Game
 		public Vector2 velocity = new Vector2(0, 0);
 		public Vector2 curAcceleration;
 		public float rotation = 0;
+		public float jumpTimer = 0;
+		public float timeSinceLastJump = 0;
 
 		public const float MAXVELOCITY = 250.0f;
 		public const float ACCELERATION_RATE = 50;
 		public const float GRAVITY = 9.8f;
 		public const float FRICTION = -20f;
+		public const float JUMPDELAY = 5f;
 
 		public bool canMove = false; //If the object can move or is static.
 		public bool falling = false; //If the object is currently falling.
@@ -50,6 +53,8 @@ namespace a4_2D_Game
 		public bool flipped = false;
 
 		public string name = "";
+
+		
 
 		public Object(Vector2 pos)
 		{
@@ -110,9 +115,18 @@ namespace a4_2D_Game
 			else if (velocity.X < -MAXVELOCITY) velocity.X = -MAXVELOCITY;
 			else velocity.X += curAcceleration.X;
 			
-			if(!onGround)
+			if(!onGround && falling)
 			{
 				curAcceleration.Y = GRAVITY;
+			}
+			else if(!onGround && !falling && jumpTimer > JUMPDELAY)
+			{
+				curAcceleration.Y = -GRAVITY;
+				velocity.Y = -MAXVELOCITY;
+			}
+			else if(!onGround && !falling && jumpTimer <= JUMPDELAY)
+			{
+				velocity.X = 0;
 			}
 			else
 			{

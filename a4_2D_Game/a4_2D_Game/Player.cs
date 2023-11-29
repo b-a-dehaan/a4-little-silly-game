@@ -16,6 +16,8 @@ namespace a4_2D_Game
 		C_Camera? camera;
 		bool movingLeft = false;
 
+		
+
 		public Player(Vector2 pos) : base(pos)
 		{
 			playerInput = new Input();
@@ -49,7 +51,9 @@ namespace a4_2D_Game
 			//Set default values that may be important. Scale object here instead of changing size
 			scale = new Vector2(0.1f, 0.1f);
 			rotation = 0;
-
+			movingLeft = false;
+			onGround = false;
+			falling = true;
 			base.Load();
 		}
 
@@ -89,10 +93,17 @@ namespace a4_2D_Game
 
 			//JUMP ANIMATION
 			Animation jumpAnim = new Animation(AnimationType.JUMP);
-			jumpAnim.AddTextureFrame(1, 1834, 160,1222,5);
-            jumpAnim.AddTextureFrame(695, 1666, 663, 1390, 5);
-            jumpAnim.AddTextureFrame(1, 1834, 160, 1222, 5);
+			jumpAnim.AddTextureFrame(0, 1834, 561,1222, 10);
+            jumpAnim.AddTextureFrame(695, 1667, 662, 1389, 10);
+            jumpAnim.AddTextureFrame(1491, 1667, 631, 1135, 10);
+			jumpAnim.loopAnim = false;
 			animComponent?.AddAnimation(AnimationType.JUMP, jumpAnim);
+
+			//FALL ANIMATION
+			Animation fallAnim = new Animation(AnimationType.FALL);
+			fallAnim.AddTextureFrame(1491, 1667, 631, 1135, 5);
+			fallAnim.loopAnim= false;
+			animComponent?.AddAnimation(AnimationType.FALL, fallAnim);
 
 			//HURT ANIMATION
 			Animation hurtAnim = new Animation(AnimationType.HURT);
@@ -138,23 +149,59 @@ namespace a4_2D_Game
 				curAcceleration.X = 0;
 				velocity.X = 0f;
 			}
-			base.Move();
+
+			if (playerInput.activeInputs[Input.E_Inputs.JUMP] && onGround && jumpTimer >=0 && timeSinceLastJump > JUMPDELAY)
+			{
+				onGround = false;
+				falling = false;
+				timeSinceLastJump = 0;
+			}
+			else if(!onGround && jumpTimer >= 20)
+			{
+				falling = true;
+			}
+			else if(onGround == true)
+			{
+				jumpTimer = 0;
+				timeSinceLastJump += 1;
+			}
+			else
+			{
+				jumpTimer += 1;
+			}
+
+				base.Move();
 		}
 
 		public void UpdateAnimation()
 		{
-			movingLeft = false;
+
 			if (curAcceleration.X > 20f)
 			{
 				movingLeft = false;
-				if (animComponent?.curAnimation.animType != AnimationType.MOVE)
-				{
-					animComponent?.SwitchAnimation(AnimationType.MOVE);
-				}
 			}
 			else if (curAcceleration.X < -20f)
 			{
 				movingLeft = true;
+			}
+
+
+			if (!onGround && !falling)
+			{
+				if (animComponent?.curAnimation.animType != AnimationType.JUMP)
+				{
+					animComponent?.SwitchAnimation(AnimationType.JUMP);
+				}
+			}
+			else if(!onGround && falling)
+			{
+				if (animComponent?.curAnimation.animType != AnimationType.FALL)
+				{
+					animComponent?.SwitchAnimation(AnimationType.FALL);
+				}
+			}
+			else if(Math.Abs(curAcceleration.X) > 20)
+			{
 				if (animComponent?.curAnimation.animType != AnimationType.MOVE)
 				{
 					animComponent?.SwitchAnimation(AnimationType.MOVE);
@@ -167,6 +214,8 @@ namespace a4_2D_Game
 					animComponent?.SwitchAnimation(AnimationType.IDLE);
 				}
 			}
+			
+			
 			
 			if(animComponent != null)
 			{
