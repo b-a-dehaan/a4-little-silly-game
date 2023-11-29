@@ -71,6 +71,7 @@ namespace a4_2D_Game
 			S_TextureHandler.LoadImage("enemy", "../../../resources/enemysprites.png");
 
 			S_TextureHandler.LoadImage("background", "../../../resources/silly-sprite-good-copy.png");
+			S_TextureHandler.LoadImage("platforms", "../../../resources/platforms.png");
 
 		}
 
@@ -178,7 +179,10 @@ namespace a4_2D_Game
                 AddObject(bu, 1);
 
             }
-                
+
+			AddObject(new Platforms(new Vector2(100, 500), 3),1);
+
+
 			//Add other objects here...
 
 			AddObject(new Enemy_Fly(new Vector2(600, 600)), 1);
