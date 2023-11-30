@@ -186,6 +186,9 @@ namespace a4_2D_Game
 			//Add other objects here...
 
 			AddObject(new Enemy_Fly(new Vector2(600, 600)), 1);
+			AddObject(new Enemy_Beetle(new Vector2(600, 500)), 1);
+			AddObject(new Enemy_Slime(new Vector2(700, 500)), 1);
+			AddObject(new Enemy_Bug(new Vector2(500, 800)), 1);
 
         }
 
