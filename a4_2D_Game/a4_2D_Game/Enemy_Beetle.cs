@@ -11,15 +11,15 @@ namespace a4_2D_Game
         }
         public override void LoadAnimations()
         {
-            startSize.X = 960;
-            startSize.Y = 1381;
+            startSize.X = 873;
+            startSize.Y = 1256;
             Animation idleAnim = new Animation(AnimationType.IDLE);
-            idleAnim.AddTextureFrame(20, 13056, 960, 1381, 30);
-            idleAnim.AddTextureFrame(1086, 13056, 960, 1381, 30);
-            idleAnim.AddTextureFrame(2158, 13056, 960, 1381, 30);
-            idleAnim.AddTextureFrame(3228, 13121, 959, 1316, 30);
-            idleAnim.AddTextureFrame(4300, 13056, 960, 1381, 30);
-            idleAnim.AddTextureFrame(5372, 13056, 959, 1381, 30);
+            idleAnim.AddTextureFrame(18, 11868, 873, 1256, 30);
+            idleAnim.AddTextureFrame(987, 11868, 873, 1256, 30);
+            idleAnim.AddTextureFrame(1961, 11868, 874, 1256, 30);
+            idleAnim.AddTextureFrame(2934, 11927, 873,1197, 30);
+            idleAnim.AddTextureFrame(3908,11868, 874, 1256, 30);
+            idleAnim.AddTextureFrame(4883,11868,873,1256, 30);
             animComponent?.AddAnimation(AnimationType.IDLE, idleAnim);
 
             animComponent?.SwitchAnimation(AnimationType.IDLE);
