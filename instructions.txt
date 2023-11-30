@@ -1,0 +1,3 @@
+Use WASD or arrow keys to move.
+Press space or W or Up arrow key to jump.
+Avoid the enemies to make it to the end of the level!
