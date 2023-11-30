@@ -93,11 +93,13 @@ namespace a4_2D_Game
 
             AddObject(new Bushes(new Vector2(30, 615)), 1);
 			//Add other objects here...
+			AddObject(new Enemy_Slime(new Vector2(900, 700)), 1);
 
-
-
+			AddObject(new Enemy_Beetle(new Vector2(700, 700)), 1);
 
 			AddObject(new Enemy_Fly(new Vector2(600, 600)), 1);
+
+			AddObject(new Enemy_Bug(new Vector2(700,700)), 1);
         }
 
 
