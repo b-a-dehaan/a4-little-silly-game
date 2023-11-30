@@ -71,125 +71,38 @@ namespace a4_2D_Game
 			S_TextureHandler.LoadImage("enemy", "../../../resources/enemysprites.png");
 
 			S_TextureHandler.LoadImage("background", "../../../resources/silly-sprite-good-copy.png");
-			S_TextureHandler.LoadImage("platforms", "../../../resources/platforms.png");
 
 		}
 
 		//Loads all the objects in the game. Anything added here is "automatically" updated and drawn.
 		static void LoadAllObjects()
 		{
-			//Add objects behind player here...
+            //Add objects behind player here...
+            AddObject(new ColorBackground(new Vector2(-290, -190)), 1);
 
-			int sizeX = 2070;
-			int sizeX1 = 1613;
-			int sizeX2 = 1484;
-			int sizeX3 = 1588;
-			int sizeX4 = 1482;
-			int sizeX5 = 1417;
+            AddObject(new Trees2(new Vector2(-113, 0)), 1);
 
-			for (int i = 0; i < 10; i++)
-			{
-                ColorBackground cb = new ColorBackground(new Vector2(sizeX * i - 290, -190));
-                if (i % 2 == 1)
-                {
-                    cb.flipped = true;
-                }
-                else
-                {
-                    cb.flipped = false;
-                }
-                AddObject(cb, 1);
+            AddObject(new Trees(new Vector2(2, 5)), 1);
 
-            }
-
-            for (int i = 0; i < 10; i++)
-			{
-				Trees2 tr = new Trees2(new Vector2(sizeX1 * i - -113, 0));
-                if (i % 2 == 1)
-                {
-                    tr.flipped = true;
-                }
-                else
-                {
-                    tr.flipped = false;
-                }
-                //AddObject(tr, 1);
-
-            }
-
-            for (int i = 0; i < 10; i++)
-			{
-				Trees te = new Trees(new Vector2(sizeX2 * i - 2, 5));
-				if (i % 2 == 1)
-				{
-					te.flipped = true;
-				}
-				else
-				{
-					te.flipped = false;
-				}
-                AddObject(te, 1);
-
-            }
-
-            for (int i = 0; i < 10; i++)
-			{
-				Ground gr = new Ground(new Vector2(sizeX3 * i - 0, SCREEN_HEIGHT * 0.75f));
-                if (i % 2 == 1)
-				{
-					gr.flipped = true;
-				}
-				else
-				{
-					gr.flipped = false;
-				}
-                AddObject(gr, 1);
-
-            }
+            AddObject(new Ground(new Vector2(0, SCREEN_HEIGHT * 0.8f)), 1);
 
 			//Add a player object on level 1. 500, 500 is the starting position.
 			AddObject(new Player(new Vector2(500,500)), 1);
 
-            for (int i = 0; i < 10; i++)
-			{
-				Lighting li = new Lighting(new Vector2(sizeX4 * i - 10, 0));
-                if (i % 2 == 1)
-				{
-					li.flipped = true;
-				}
-				else
-				{
-					li.flipped = false;
-				}
-                AddObject(li, 1);
+            AddObject(new Lighting(new Vector2(10, 0)), 1);
 
-            }
-
-            for (int i = 0; i < 10; i++)
-			{
-				Bushes bu = new Bushes(new Vector2(sizeX5 * i - 30, 615));
-                if (i % 2 == 1)
-				{
-					bu.flipped = true;
-				}
-				else
-				{
-					bu.flipped = false;
-				}
-                AddObject(bu, 1);
-
-            }
-
-			AddObject(new Platforms(new Vector2(100, 500), 3),1);
-
-
+            AddObject(new Bushes(new Vector2(30, 615)), 1);
 			//Add other objects here...
+			AddObject(new Enemy_Slime(new Vector2(900, 700)), 1);
+
+			AddObject(new Enemy_Beetle(new Vector2(700, 700)), 1);
 
 			AddObject(new Enemy_Fly(new Vector2(600, 600)), 1);
 			AddObject(new Enemy_Beetle(new Vector2(600, 500)), 1);
 			AddObject(new Enemy_Slime(new Vector2(700, 500)), 1);
 			AddObject(new Enemy_Bug(new Vector2(500, 800)), 1);
 
+			AddObject(new Enemy_Bug(new Vector2(700,700)), 1);
         }
 
 
@@ -246,7 +159,7 @@ namespace a4_2D_Game
 		//Draw all objects in the current level.
 		static void Draw()
 		{
-			Raylib.ClearBackground(Color.DARKGREEN);
+			Raylib.ClearBackground(Color.WHITE);
 			foreach (Object obj in currentObjects)
 			{
 				
@@ -297,16 +210,14 @@ namespace a4_2D_Game
 		static void HandleCollision()
 		{
 			Object? player = currentObjects.Find(p => p.name == "PLAYER");
-			var ground = currentObjects.FindAll(p => p.name == "GROUND");
+			Object? ground = currentObjects.Find(p => p.name == "GROUND");
 
-			foreach (var obj in ground)
+			if (player != null && ground != null && S_CollisionHandler.IsColliding(player, ground))
 			{
-				if (player != null && obj != null && S_CollisionHandler.IsColliding(player, obj))
-				{
-					player.OnHit(obj);
-					obj.OnHit(player);
-				}
+				player.OnHit(ground);
+				ground.OnHit(player);
 			}
+			
 			//Loop all platforms the player can collide with here and change position based on next position
 
 
