@@ -107,6 +107,8 @@ namespace a4_2D_Game
 
 			//HURT ANIMATION
 			Animation hurtAnim = new Animation(AnimationType.HURT);
+			hurtAnim.AddTextureFrame(0, 6015, 656, 1386, 1);
+			animComponent.AddAnimation(AnimationType.HURT, hurtAnim);
 
 
             animComponent?.SwitchAnimation(AnimationType.IDLE);
